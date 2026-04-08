@@ -1,0 +1,12 @@
+{
+    "name": "FF Bet Manager",
+    "short_name": "FFBet",
+    "description": "Gerenciador de Apostas 1v1 de Free Fire",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#0a0a0f",
+    "theme_color": "#ff6a00",
+    "orientation": "portrait",
+    "categories": ["games", "utilities"],
+    "icons": []
+}

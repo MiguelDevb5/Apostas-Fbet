@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="FF Bet Manager - Gerencie apostas 1v1 de Free Fire">
+    <meta name="theme-color" content="#ff6a00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>FF Bet Manager 🔥</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div class="login-overlay" id="login-overlay">
+        <div class="login-card">
+            <div class="login-logo">🔥</div>
+            <h1 class="login-title">FF BET<span class="highlight">MANAGER</span></h1>
+            <p class="login-subtitle">Gerenciador de Apostas 1v1</p>
+
+            <form id="login-form" autocomplete="off">
+                <div class="login-input-wrapper">
+                    <span class="login-input-icon">🎮</span>
+                    <input type="text" id="nickname-input" placeholder="Seu nickname" maxlength="20" required>
+                </div>
+                <button type="submit" class="btn-enter" id="btn-enter">
+                    <span>🔥 ENTRAR</span>
+                </button>
+            </form>
+
+            <p class="login-footer">Entre pra ver o ranking e apostar!</p>
+        </div>
+    </div>
+
+    <!-- ===== APP CONTAINER ===== -->
+    <div class="app-container" id="app-container" style="display: none;">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🔥</span>
+                    <h1>FF BET<span class="highlight">MANAGER</span></h1>
+                </div>
+                <div class="header-user">
+                    <span class="user-online-dot"></span>
+                    <span class="header-nickname" id="header-nickname"></span>
+                    <span class="header-online-count" id="header-online-count">0 online</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <button class="nav-btn active" data-tab="dashboard" id="nav-dashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Dashboard</span>
+            </button>
+            <button class="nav-btn" data-tab="new-match" id="nav-new-match">
+                <span class="nav-icon">⚔️</span>
+                <span class="nav-label">Nova</span>
+            </button>
+            <button class="nav-btn" data-tab="active" id="nav-active">
+                <span class="nav-icon">🎮</span>
+                <span class="nav-label">Ativas</span>
+                <span class="badge" id="active-badge">0</span>
+            </button>
+            <button class="nav-btn" data-tab="history" id="nav-history">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Histórico</span>
+            </button>
+            <button class="nav-btn" data-tab="ranking" id="nav-ranking">
+                <span class="nav-icon">🏅</span>
+                <span class="nav-label">Ranking</span>
+            </button>
+            <button class="nav-btn" data-tab="online" id="nav-online">
+                <span class="nav-icon">🟢</span>
+                <span class="nav-label">Online</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main">
+
+            <!-- DASHBOARD TAB -->
+            <section class="tab-content active" id="tab-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card gradient-1">
+                        <div class="stat-icon">⚔️</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-total-matches">0</span>
+                            <span class="stat-label">Partidas</span>
+                        </div>
+                    </div>
+                    <div class="stat-card gradient-2">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-total-wagered">R$ 0</span>
+                            <span class="stat-label">Apostado</span>
+                        </div>
+                    </div>
+                    <div class="stat-card gradient-3">
+                        <div class="stat-icon">🤑</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-admin-profit">R$ 0</span>
+                            <span class="stat-label">Lucro Admin</span>
+                        </div>
+                    </div>
+                    <div class="stat-card gradient-4">
+                        <div class="stat-icon">🎮</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-active-matches">0</span>
+                            <span class="stat-label">Ativas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <h2 class="section-title">📈 Últimas Partidas</h2>
+                    <div id="recent-matches" class="matches-list">
+                        <div class="empty-state">
+                            <span class="empty-icon">🎯</span>
+                            <p>Nenhuma partida ainda. Crie a primeira!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEW MATCH TAB -->
+            <section class="tab-content" id="tab-new-match">
+                <div class="section-card form-card">
+                    <h2 class="section-title">⚔️ Criar Nova Partida</h2>
+
+                    <form id="match-form" autocomplete="off">
+                        <div class="versus-container">
+                            <div class="player-input-card">
+                                <div class="player-badge">P1</div>
+                                <label for="player1">Jogador 1</label>
+                                <input type="text" id="player1" placeholder="Nome" required>
+                            </div>
+                            <div class="vs-divider">
+                                <span class="vs-text">VS</span>
+                            </div>
+                            <div class="player-input-card">
+                                <div class="player-badge p2">P2</div>
+                                <label for="player2">Jogador 2</label>
+                                <input type="text" id="player2" placeholder="Nome" required>
+                            </div>
+                        </div>
+
+                        <div class="bet-section">
+                            <label for="bet-amount">💰 Valor da Aposta (cada)</label>
+                            <div class="bet-input-wrapper">
+                                <span class="currency">R$</span>
+                                <input type="number" id="bet-amount" placeholder="0,00" step="0.50" min="0.50" required>
+                            </div>
+                            <div class="quick-bets">
+                                <button type="button" class="quick-bet" data-value="2.50">R$ 2,50</button>
+                                <button type="button" class="quick-bet" data-value="5.00">R$ 5,00</button>
+                                <button type="button" class="quick-bet" data-value="7.50">R$ 7,50</button>
+                                <button type="button" class="quick-bet" data-value="10.00">R$ 10</button>
+                                <button type="button" class="quick-bet" data-value="15.00">R$ 15</button>
+                                <button type="button" class="quick-bet" data-value="20.00">R$ 20</button>
+                            </div>
+                            <div class="payout-preview">
+                                <div class="preview-row">
+                                    <span>Cada jogador:</span>
+                                    <span id="preview-bet">R$ 0,00</span>
+                                </div>
+                                <div class="preview-row">
+                                    <span>Pote total:</span>
+                                    <span id="preview-pot">R$ 0,00</span>
+                                </div>
+                                <div class="preview-row admin-cut">
+                                    <span>Taxa Admin:</span>
+                                    <span id="preview-admin">R$ 1,00</span>
+                                </div>
+                                <div class="preview-row winner-prize">
+                                    <span>🏆 Vencedor leva:</span>
+                                    <span id="preview-winner">R$ 0,00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-create" id="btn-create-match">
+                            <span>🔥 CRIAR PARTIDA</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ACTIVE MATCHES TAB -->
+            <section class="tab-content" id="tab-active">
+                <div class="section-card">
+                    <h2 class="section-title">🎮 Partidas Ativas</h2>
+                    <div id="active-matches" class="matches-list">
+                        <div class="empty-state">
+                            <span class="empty-icon">😴</span>
+                            <p>Nenhuma partida ativa.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HISTORY TAB -->
+            <section class="tab-content" id="tab-history">
+                <div class="section-card">
+                    <h2 class="section-title">📋 Histórico de Partidas</h2>
+                    <div id="history-matches" class="matches-list">
+                        <div class="empty-state">
+                            <span class="empty-icon">📁</span>
+                            <p>Histórico vazio.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RANKING TAB -->
+            <section class="tab-content" id="tab-ranking">
+                <div class="section-card">
+                    <h2 class="section-title">🏅 Ranking dos Jogadores</h2>
+                    <div id="ranking-list" class="ranking-container">
+                        <div class="empty-state">
+                            <span class="empty-icon">🏆</span>
+                            <p>Nenhum jogador no ranking ainda.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ONLINE TAB -->
+            <section class="tab-content" id="tab-online">
+                <div class="section-card">
+                    <h2 class="section-title">🟢 Jogadores</h2>
+                    <div id="online-list" class="online-container">
+                        <div class="empty-state">
+                            <span class="empty-icon">👥</span>
+                            <p>Ninguém por aqui ainda.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Winner Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="winner-modal">
+            <h2 class="modal-title">🏆 Selecionar Vencedor</h2>
+            <p class="modal-subtitle" id="modal-match-info"></p>
+            <div class="modal-players">
+                <button class="modal-player-btn" id="modal-p1-btn">
+                    <span class="modal-player-name" id="modal-p1-name"></span>
+                    <span class="modal-player-tag">Jogador 1</span>
+                </button>
+                <span class="modal-vs">VS</span>
+                <button class="modal-player-btn p2" id="modal-p2-btn">
+                    <span class="modal-player-name" id="modal-p2-name"></span>
+                    <span class="modal-player-tag">Jogador 2</span>
+                </button>
+            </div>
+            <div class="modal-payout" id="modal-payout">
+                <span>💰 Prêmio: <strong id="modal-prize"></strong></span>
+            </div>
+            <button class="btn-cancel" id="modal-cancel">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span id="toast-message"></span>
+    </div>
+
+    <!-- Firebase SDK (compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
